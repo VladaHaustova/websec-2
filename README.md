@@ -7,5 +7,6 @@
 
 ## Как запустить
 
+- Написать в терминале pip install lxml, pip install requests, pip install bs4
 - Запустить файл main.py
 - В браузере написать http://127.0.0.1:2000/index.html
