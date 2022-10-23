@@ -1,77 +1,32 @@
 <!doctype html>
 <html lang="ru">
+
 <head>
   <meta charset="utf-8" />
   <title></title>
-  <link rel="stylesheet" type="text/css" href="http://127.0.0.1:2000/style.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 </head>
 
 <body>
   <header>
-    <nav class="navbar">
-      <div class="container">
-        <img src="https://ssau.ru/i/logo/logo_white_goriz_ru.svg"/>
-        <ul>
-          <li class="inline_list"><a class="header_links" href="#">Абитуриенту</a></li>
-          <li class="inline_list"><a class="header_links"href="#">Студенту</a></li>
-          <li class="inline_list"><a class="header_links"href="#">Выпускнику</a></li>
-          <li class="inline_list"><a class="header_links"href="#">Сотруднику</a></li>
-          <li class="inline_list"><a class="header_links"href="#">Партнеру</a></li>
-        </ul>
-      </div>
-    </nav>
-
+    <div class="container">
+      <a class="h1-text group_number" href="#">(номер группы)</a>
+    </div>
   </header>
 
   <main>
-    <h1 class="h1-text">Расписание</h1>
+    <h1 class="h2-text">Расписание</h1>
     <form>
       <input type="text" placeholder="Поиск...">
     </form>
-    <table class="schedule-table text-style2" style="width:100%">
-      <tr>
-        <th class="text-style2">Время</th>
-        <th class="text-style2">понедельник</th>
-        <th class="text-style2">вторник</th>
-        <th class="text-style2">среда</th>
-        <th class="text-style2">четверг</th>
-        <th class="text-style2">пятница</th>
-        <th class="text-style2">суббота</th>
+    <table class="schedule-table text-style1" >
+      <tr class="headers-row">
       </tr>
     </table>
   </main>
-  
-  <footer class="footer">
-    <h2 class="h2-text">Контакты</h2>
-    <div class="row">
-      <div class="footer-col">
-        <h3 class="h3-text">Приемная комиссия</h3>
-        <ul>
-          <li><a class="footer_links text-style2" href="#">8 (846) 267-48-67</a></li>
-          <li><a class="footer_links text-style2" href="#">priem@ssau.ru</a></li>
-          <li><a class="footer_links text-style2" href="#">ssau.ru/priem</a></li>
-        </ul>
-      </div>
 
-      <div class="footer-col">
-        <h3 class="h3-text">Центр по связи</h3>
-        <ul>
-          <li><a class="footer_links text-style2" href="#">pr@ssau.ru</a></li>
-          <li><a class="footer_links text-style2" href="#">Требования к новостным материалам</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-col">
-        <h3 class="h3-text">Техническая поддержка</h3>
-        <ul>
-          <li><a class="footer_links text-style2" href="#">+7 (846) 267-49-99</a></li>
-          <li><a class="footer_links text-style2" href="#">help@ssau.ru</a></li>
-        </ul>
-      </div>
-    </div>
-  </footer>
-<script src="http://127.0.0.1:2000/script.js"></script>
+<script src="script.js"></script>
 </body>
 
 </html>
