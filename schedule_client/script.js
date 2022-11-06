@@ -1,23 +1,62 @@
 let myData;
-let headers = document.querySelector(".headers-row");
+let currentUrl = '/rasp?groupId=531030143';
+let currentWeek = "1";
 
-fetch('http://127.0.0.1:2000/schedule.txt')
+fetch("/groups")
     .then((res) => {
         return res.json();
     })
     .then((data) => {
         console.log(data);
-        myData = data;
-        generateTable();
+        let groupsList = document.querySelector("#groups-list");
+        for (const [key, value] of Object.entries(data)) {
+            let group = document.createElement("option");
+            group.value = key;
+            groupsList.appendChild(group);
+        }
+        let inputElem = document.querySelector("#group-input");
+        inputElem.addEventListener("change", () => {
+            for (const [key, value] of Object.entries(data)) {
+                let tmpTag = document.createElement("div");
+                tmpTag.innerHTML = value;
+                let tmpLink = tmpTag.querySelector("a");
+                if (inputElem.value === key) {
+                    updateData(tmpLink.href);
+                    document.querySelector(".group_number").innerHTML = key;
+                    break;
+                }
+            }
+        })
     })
 
-let table = document.querySelector('.schedule-table');
-let rows = [];
-for (let i = 0; i < 6; i++) {
-    rows.push(table.insertRow());
+function updateData(url = '/rasp?groupId=531030143') {
+    fetch(url)
+        .then((res) => {
+            return res.json();
+        })
+        .then((data) => {
+            console.log(data);
+            currentWeek = data["week"];
+            currentWeek = currentWeek.slice(0, 3);
+            currentWeek = currentWeek.replace(/\s/g, "");
+            delete data["week"];
+            myData = data;
+            currentUrl += "&selectedWeek=" + currentWeek;
+            generateTable();
+        })
 }
 
+let rows = [];
+
 function generateTable(){
+    let table = document.querySelector('.schedule-table');
+    table.innerHTML = "";
+    let headers = table.insertRow();
+    headers.classList.add("headers-row");
+    rows = [];
+    for (let i = 0; i < 6; i++) {
+        rows.push(table.insertRow());
+    }
     let myDate = new Date();
     let day = myDate.getDay();
     let resultSchedule = {};
@@ -74,17 +113,67 @@ function generateTable(){
     ind = 0;
     for (const [key, value] of Object.entries(window.screen.width < 481 ? resultSchedule : myData)) {
         for (let i of value) {
-            rows[ind].insertCell().appendChild(document.createTextNode(value[ind][Object.keys(value[ind])[0]]));
+            let day = document.createElement("div");
+            day.innerHTML = value[ind][Object.keys(value[ind])[0]]
+            rows[ind].insertCell().appendChild(day);
             ind++;
         }
         ind = 0;
-    }  
+    }
+
+    let links = document.querySelectorAll("a");
+    for (let link of links) {
+        let hrefLink = link.href;
+        link.href = "#";
+        link.addEventListener("click", () => {
+            currentUrl = hrefLink;
+            updateData(currentUrl);
+        })
+    }
 }
+
+updateData();
 
 window.addEventListener('resize', (event) => {
     for (let i = 0; i < rows.length; i++) {
         rows[i].innerHTML = "";
     }
-    headers.innerHTML = "";
+    document.querySelector(".headers-row").innerHTML = "";
     generateTable();
 });
+
+document.querySelector("#nextWeek").addEventListener("click", () => {
+    let isWeekSelectedInURL = false;
+    let ind = 0;
+    for (let char in currentUrl) {
+        if (char === "&") {
+            isWeekSelectedInURL = true;
+            break;
+        }
+    }
+})
+
+function changePage(goNextPage) {
+    let ind = 0;
+    let count = 0;
+    let previousBtn = document.querySelector("#previousWeek");
+    for (let i = 0; i < currentUrl.length; i++) {
+        if (currentUrl[i] === "=") {
+            count++;
+            if (count === 2) {
+                ind = i;
+                break;
+            }
+        }
+    }
+    if (goNextPage) currentWeek = parseInt(currentWeek) + 1 + "";
+    else currentWeek = parseInt(currentWeek) - 1 + "";
+    if (currentWeek === "1") {
+        previousBtn.style.visibility = "hidden";
+    } else {
+        previousBtn.style.visibility = "visible";
+    }
+    currentUrl = currentUrl.slice(0, ind + 1) + currentWeek;
+    updateData(currentUrl);
+    console.log(currentUrl);
+}

@@ -11,15 +11,21 @@
 <body>
   <header>
     <div class="container">
-      <a class="h1-text group_number" href="#">(номер группы)</a>
+      <a class="h1-text group_number" href="#">6411-100503D</a>
     </div>
   </header>
 
   <main>
+    <datalist id="groups-list">
+    </datalist>
     <h1 class="h2-text">Расписание</h1>
     <form>
-      <input type="text" placeholder="Поиск...">
+      <input id="group-input" type="text" placeholder="Поиск..." list="groups-list">
     </form>
+    <div class="nav-buttons">
+      <button id="previousWeek" onclick="changePage(false)">Предыдущая неделя</button>
+      <button id="nextWeek" onclick="changePage(true)">Следующая неделя</button>
+    </div>
     <table class="schedule-table text-style1" >
       <tr class="headers-row">
       </tr>
