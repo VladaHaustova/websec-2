@@ -51,7 +51,7 @@ table {
   box-shadow: 0px 5px 7px #bfccdc;
   border-collapse: collapse;
   background-color: #ffffff;
-  margin: 20px 20px 20px 40px;
+  margin: 20px auto;
 }
 
 table th {
