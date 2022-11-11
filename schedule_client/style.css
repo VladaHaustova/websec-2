@@ -9,7 +9,7 @@ body{
   display: flex;
 }
 
-.group_number{
+.schedule-title{
   color: #bfd9f7;
   text-decoration: none;
 }
@@ -92,8 +92,15 @@ table td {
   justify-content: space-around;
 }
 
+#previousDay, #nextDay {
+  display: none;
+}
+
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
-  
+  #previousDay, #nextDay {
+    display: inline;
+  }
+
   .h1-text {
     font-size: 80px;
     letter-spacing: .50px;
@@ -126,6 +133,11 @@ table td {
 
   .text-style1{
     font-size: 35px;
+  }
+
+  .nav-buttons button {
+    font-size: 24px;
+    font-weight: 500;
   }
 
 }

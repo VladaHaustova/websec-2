@@ -1,3 +1,6 @@
+import codecs
+import re
+
 import requests
 from bs4 import BeautifulSoup
 import json
@@ -29,8 +32,23 @@ def getGroups():
         find_all_groups = soup.find_all("a", class_="btn-text group-catalog__group")
         for j in find_all_groups:
             result[j.text.strip()] = str(j)
-    print(result)
     return json.dumps(result)
+
+def getAndSaveTeachers():
+    result = {}
+    for i in range(1, 116):
+        html = requests.get(url="https://ssau.ru/staff?page=" + str(i)).text
+        soup = BeautifulSoup(html, "lxml")  #
+        find_teachers_list = soup.find_all("ul", class_="list-group")
+        tmp = BeautifulSoup(str(find_teachers_list), "lxml")
+        all_teachers = tmp.find_all("a")
+        for j in all_teachers:
+            id = re.findall(r'\d+', str(j))
+            if len(id) > 0:
+                result[j.text.strip()] = "/rasp?staffId=" + id[0]
+
+    with codecs.open("schedule_client/teachers.txt", "w", "utf-8") as stream:  # or utf-8
+        stream.write(json.dumps(result, ensure_ascii=False) + u"\n")
 
 def getHTML(url):
     resultUrl = 'https://ssau.ru' + url

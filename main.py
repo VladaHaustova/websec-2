@@ -1,5 +1,5 @@
 import socket
-from html_parser import getHTML, getGroups
+from html_parser import getHTML, getGroups, getAndSaveTeachers
 
 tmpp = ""
 
@@ -8,6 +8,7 @@ def start_server():
         server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server.bind(('127.0.0.1', 2000))
         server.listen(4)
+        # getAndSaveTeachers()
         while True:
             path = "/"
             print('Server working...')
@@ -42,6 +43,13 @@ def start_server():
                 HDRS = 'HTTP/1.1 200 OK\r\nContent-Type: application/json; charset=utf-8\r\n\r\n'
                 response = getGroups()
                 client_socket.send(HDRS.encode('utf-8') + response.encode('utf-8'))
+                client_socket.shutdown(socket.SHUT_WR)
+                continue
+            elif path == "/teachers":
+                HDRS = 'HTTP/1.1 200 OK\r\nContent-Type: application/json; charset=utf-8\r\n\r\n'
+                with open('schedule_client/teachers.txt', 'rb') as file:
+                    response = file.read()
+                client_socket.send(HDRS.encode('utf-8') + response)
                 client_socket.shutdown(socket.SHUT_WR)
                 continue
 

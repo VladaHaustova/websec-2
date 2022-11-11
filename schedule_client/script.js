@@ -1,6 +1,8 @@
 let myData;
 let currentUrl = '/rasp?groupId=531030143';
 let currentWeek = "1";
+let myDate = new Date();
+let day = myDate.getDay();
 
 fetch("/groups")
     .then((res) => {
@@ -8,13 +10,13 @@ fetch("/groups")
     })
     .then((data) => {
         console.log(data);
-        let groupsList = document.querySelector("#groups-list");
+        let searchList = document.querySelector("#search-list");
         for (const [key, value] of Object.entries(data)) {
             let group = document.createElement("option");
             group.value = key;
-            groupsList.appendChild(group);
+            searchList.appendChild(group);
         }
-        let inputElem = document.querySelector("#group-input");
+        let inputElem = document.querySelector("#search-input");
         inputElem.addEventListener("change", () => {
             for (const [key, value] of Object.entries(data)) {
                 let tmpTag = document.createElement("div");
@@ -22,7 +24,33 @@ fetch("/groups")
                 let tmpLink = tmpTag.querySelector("a");
                 if (inputElem.value === key) {
                     updateData(tmpLink.href);
-                    document.querySelector(".group_number").innerHTML = key;
+                    document.querySelector(".schedule-title").innerHTML = key;
+                    break;
+                }
+            }
+        })
+    })
+
+fetch("/teachers")
+    .then((res) => {
+        return res.json();
+    })
+    .then((data) => {
+        console.log(data);
+        let groupsList = document.querySelector("#search-list");
+        for (const [key, value] of Object.entries(data)) {
+            let group = document.createElement("option");
+            group.value = key;
+            groupsList.appendChild(group);
+        }
+        let inputElem = document.querySelector("#search-input");
+        inputElem.addEventListener("change", () => {
+            for (const [key, value] of Object.entries(data)) {
+                let tmpLink = document.createElement("a");
+                tmpLink.href = "#";
+                if (inputElem.value === key) {
+                    updateData(value);
+                    document.querySelector(".schedule-title").innerHTML = key;
                     break;
                 }
             }
@@ -48,7 +76,7 @@ function updateData(url = '/rasp?groupId=531030143') {
 
 let rows = [];
 
-function generateTable(){
+function generateTable(changeDay = false, nextDay = false) {
     let table = document.querySelector('.schedule-table');
     table.innerHTML = "";
     let headers = table.insertRow();
@@ -57,12 +85,12 @@ function generateTable(){
     for (let i = 0; i < 6; i++) {
         rows.push(table.insertRow());
     }
-    let myDate = new Date();
-    let day = myDate.getDay();
     let resultSchedule = {};
 
     headers.insertCell().appendChild(document.createTextNode("Время"));
-    
+    if (changeDay) {
+        nextDay ? (day === 6 ? day = 1 : day++) : (day === 1 ? day = 6 : day--);
+    }
     if (window.screen.width < 481) {
         switch (day) {
             case 0:

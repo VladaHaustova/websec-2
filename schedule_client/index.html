@@ -11,20 +11,24 @@
 <body>
   <header>
     <div class="container">
-      <a class="h1-text group_number" href="#">6411-100503D</a>
+      <a class="h1-text schedule-title" href="#">6411-100503D</a>
     </div>
   </header>
 
   <main>
-    <datalist id="groups-list">
+    <datalist id="search-list">
     </datalist>
     <h1 class="h2-text">Расписание</h1>
     <form>
-      <input id="group-input" type="text" placeholder="Поиск..." list="groups-list">
+      <input id="search-input" type="text" placeholder="Поиск..." list="search-list">
     </form>
     <div class="nav-buttons">
       <button id="previousWeek" onclick="changePage(false)">Предыдущая неделя</button>
       <button id="nextWeek" onclick="changePage(true)">Следующая неделя</button>
+    </div>
+    <div class="nav-buttons">
+      <button id="previousDay" onclick="generateTable(true, false)">Предыдущий день</button>
+      <button id="nextDay" onclick="generateTable(true, true)">Следующий день</button>
     </div>
     <table class="schedule-table text-style1" >
       <tr class="headers-row">
